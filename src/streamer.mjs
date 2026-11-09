@@ -18,8 +18,9 @@ import { fileURLToPath } from "node:url";
 import { TERMINAL, foldFeed, hostFor, resolve } from "./hosts.mjs";
 import { loadConfig } from "./config.mjs";
 import { MAIN, buildGraph, createActivity, render } from "./graph.mjs";
+import { selfCommand } from "./command.mjs";
 
-const SELF = `${q(process.execPath)} ${q(fileURLToPath(import.meta.url))}`;
+const SELF = selfCommand(process.execPath, fileURLToPath(import.meta.url), process.platform);
 const CLOSE_AFTER_MS = Number(process.env.HERDR_SUBAGENT_STREAMER_CLOSE_MS ?? 5000); // 0 keeps the tab open
 const ACTIVE_STATUSES = ["started", "running"];
 const FOLLOW_POLL_MS = 400;
@@ -34,7 +35,6 @@ const C = (n, s) => `\x1b[${n}m${s}\x1b[0m`;
 const clip = (s, n) => (s.length > n ? s.slice(0, n) + "..." : s).replace(/\s+/g, " ");
 const enc = (o) => Buffer.from(JSON.stringify(o)).toString("base64url");
 const dec = (s) => JSON.parse(Buffer.from(s, "base64url").toString());
-function q(s) { return `'${String(s).replace(/'/g, `'\\''`)}'`; }
 const isActive = (status) => ACTIVE_STATUSES.includes(status);
 const flush = (text = "") => new Promise((ok, fail) => process.stdout.write(text, (err) => err ? fail(err) : ok()));
 const readReceipt = (file) => { try { return JSON.parse(fs.readFileSync(file, "utf8")); } catch { return null; } };
