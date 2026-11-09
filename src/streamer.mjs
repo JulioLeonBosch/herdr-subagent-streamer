@@ -143,7 +143,7 @@ async function graph(cfg) {
 
 // ---------- multiplexer ----------
 const run = (cmd, args) => {
-  const r = spawnSync(cmd, args, { encoding: "utf8" });
+  const r = spawnSync(cmd, args, { encoding: "utf8", windowsHide: true });
   if (r.status !== 0) throw new Error(`${cmd} ${args.join(" ")}: ${(r.stderr || r.error || "").toString().trim()}`);
   return r.stdout.trim();
 };

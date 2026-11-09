@@ -59,7 +59,7 @@ tab "1-subagents" (hybrid)
 
 Requirements: Herdr (`herdr` on PATH) or tmux, plus `bun` or `node` >= 18 on PATH. No npm dependencies.
 
-Native Windows Herdr pane commands assume PowerShell as the pane shell.
+Native Windows Herdr pane commands assume PowerShell as the pane shell. Background Herdr commands suppress console windows.
 
 ### OMP (recommended)
 
